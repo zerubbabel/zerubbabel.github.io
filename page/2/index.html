@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Quicksort-In-Place" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/21/Quicksort-In-Place/" class="article-date">
+  <time datetime="2016-06-21T05:52:29.000Z" itemprop="datePublished">2016-06-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/21/Quicksort-In-Place/">Quicksort In-Place</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原地快数排序<br>The previous version of Quicksort was easy to understand, but it was not optimal. It required copying the numbers into other arrays, which takes up space and time. To make things faster, one can create an “in-place” version of Quicksort, where the numbers are all sorted within the array itself.<br>前面那个版本的快速排序很容易理解，但却不是最佳的。它需要将数字拷贝到其他数组，这需要花费空间和时间。为了更快速，可以建立一个“原地”版本的快排，数字在数组内部实现排序。</p>
+<h2 id="Challenge-（任务）"><a href="#Challenge-（任务）" class="headerlink" title="Challenge （任务）"></a>Challenge （任务）</h2><p>Create an in-place version of Quicksort. You need to follow <a href="http://en.wikipedia.org/wiki/Quicksort#Algorithm" target="_blank" rel="noopener">Lomuto Partitioning</a>method.<br>建立一个原地版本的快排，你需要采用<a href="http://en.wikipedia.org/wiki/Quicksort#Algorithm" target="_blank" rel="noopener">Lomuto Partitioning</a>的方法。</p>
+<h2 id="Guideline-（指引）"><a href="#Guideline-（指引）" class="headerlink" title="Guideline （指引）"></a>Guideline （指引）</h2><p>Instead of copying the array into multiple sub-arrays, use indices to keep track of the different sub-arrays. You can pass the indices to a modified partition method. The partition method should partition the sub-array and then return the index location where the pivot gets placed, so you can then call partition on each side of the pivot.</p>
+<ul>
+<li>Always select the last element in the ‘sub-array’ as a pivot.</li>
+<li>Partition the left side and then the right side of the sub-array.</li>
+<li>Print out the whole array at the end of every partitioning method.</li>
+<li><p>An array of length  1 or less will be considered sorted, and there is no need to sort or to print them.<br>Since you cannot just create new sub-arrays for the elements, partition method will need to use another trick to keep track of which elements are greater and which are lower than the pivot.<br>与原来将数组中的元素拷贝到几个子数组中不同，使用标记标识不同的子数组。你可以将标记传递给修改后的分区函数。分区函数需要分出子数组并返回基准的下标，然后你可以对基准两边继续调用分区操作。</p>
+</li>
+<li><p>从始至终选择子数组中的最后一个元素为基准</p>
+</li>
+<li>先对左边的进行分区然后对右边的分区</li>
+<li>每次分区后输出整个数组</li>
+<li><p>长度小于等于1的数组认为是有序的，无需排序或打印<br>既然你不能另外新开子数组来存储元素，分区函数就需要另外一个技巧来标识哪些元素大于基准哪些元素小于基准。</p>
+<h2 id="The-In-place-Trick-（原地技巧）"><a href="#The-In-place-Trick-（原地技巧）" class="headerlink" title="The In-place Trick （原地技巧）"></a>The In-place Trick （原地技巧）</h2></li>
+<li><p>If an element is lower than the pivot, you should swap it with a larger element on the left-side of the sub-array.</p>
+</li>
+<li>Greater elements should remain where they are.</li>
+<li>At the end of the partitioning method, the pivot should be swapped with the first element of the right partition, consisting of all larger elements, of the sub-array.</li>
+<li>To ensure that you don’t swap a small element with another small element, use an index to keep track of the small elements that have already been swapped into their “place”.</li>
+<li>如果元素小于基准，你需要将它与子数组左边的一个较大元素交换。</li>
+<li>较大的元素维持原地不变</li>
+<li>分区操作结束，基准需要与子数组中的右边分区（包含所有较大元素）的第一个元素交换</li>
+<li>为了确保你不会交换两个较小的元素，使用一个标记标识所有已经通过交换放在正确位置的较小元素<br><img src="Quicksort-In-Place/Lomuto_animated.gif" alt="Lomuto-partitioning"></li>
+</ul>
+<h2 id="Input-Format-（输入格式）"><a href="#Input-Format-（输入格式）" class="headerlink" title="Input Format （输入格式）"></a>Input Format （输入格式）</h2><p>There will be two lines of input:</p>
+<ul>
+<li>n the size of the array</li>
+<li>ar the  numbers of the array<br>两行</li>
+<li>数组大小n</li>
+<li>数组ar中的数<h2 id="Output-Format-（输出格式）"><a href="#Output-Format-（输出格式）" class="headerlink" title="Output Format （输出格式）"></a>Output Format （输出格式）</h2>Print the entire array on a new line at the end of every partitioning method.<br>每行打印每次分区结束后的整个数组<h2 id="Constraints-（约束条件）"><a href="#Constraints-（约束条件）" class="headerlink" title="Constraints （约束条件）"></a>Constraints （约束条件）</h2>1&lt;=n&lt;=5000<br>-10000&lt;=x&lt;=10000<br>There are no duplicate numbers.<br>没有重复的数<h2 id="Sample-Input（输入样例）"><a href="#Sample-Input（输入样例）" class="headerlink" title="Sample Input（输入样例）"></a>Sample Input（输入样例）</h2></li>
+</ul>
+<p>7<br>1 3 9 8 2 7 5</p>
+<h2 id="Sample-Output（输出样例）"><a href="#Sample-Output（输出样例）" class="headerlink" title="Sample Output（输出样例）"></a>Sample Output（输出样例）</h2><p>1 3 2 5 9 7 8<br>1 2 3 5 9 7 8<br>1 2 3 5 7 8 9</p>
+<h2 id="Explanation-（解释）"><a href="#Explanation-（解释）" class="headerlink" title="Explanation （解释）"></a>Explanation （解释）</h2><p>5 is initally selected as the pivot, and the array is partitioned as shown in the diagram. The left side is partitioned next with 2 as the pivot. Finally, the right side is partitioned with 8 as the pivot. The entire array is now sorted.<br>5是最初的基准，数组分区如图所示。接下来左边以2为基准，最后，右边以8为基准。此时整个数组排序结束。</p>
+<p><img src="Quicksort-In-Place/QuickSortInPlace.png" alt="Lomuto-partitioning"><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> ar[<span class="number">5000</span>]; <span class="keyword">int</span> n;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> &amp;a,<span class="keyword">int</span> &amp;b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> t=a;</span><br><span class="line">    a=b;</span><br><span class="line">    b=t;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span> *ar,<span class="keyword">int</span> p,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x=ar[r];</span><br><span class="line">    <span class="keyword">int</span> i=p<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=p;j&lt;r;j++)&#123;</span><br><span class="line">        <span class="keyword">if</span> (ar[j]&lt;x)&#123;</span><br><span class="line">            i++;</span><br><span class="line">            swap(ar[i],ar[j]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    swap(ar[r],ar[++i]);</span><br><span class="line">    <span class="keyword">extern</span> <span class="keyword">int</span> n;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;ar[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quicksort</span><span class="params">(<span class="keyword">int</span> *ar,<span class="keyword">int</span> p,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (p&lt;r)&#123;</span><br><span class="line">        <span class="keyword">int</span> q=partition(ar,p,r);</span><br><span class="line">        quicksort(ar,p,q<span class="number">-1</span>);</span><br><span class="line">        quicksort(ar,q+<span class="number">1</span>,r);        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;ar[i];</span><br><span class="line">    &#125;</span><br><span class="line">    quicksort(ar,<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/21/Quicksort-In-Place/" data-id="cjdyah4hc000i2ga3ai6mg8je" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sorting/">sorting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Quicksort-2-Sorting" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/21/Quicksort-2-Sorting/" class="article-date">
+  <time datetime="2016-06-20T23:52:21.000Z" itemprop="datePublished">2016-06-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/21/Quicksort-2-Sorting/">Quicksort 2 - Sorting</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>In the previous challenge, you wrote a partition method to split an array into two sub-arrays, one containing smaller elements and one containing larger elements than a given number. This means you ‘sorted’ half the array with respect to the other half. Can you repeatedly use partition to sort an entire array?<br>在前面的任务里，你写了一个将数组分成两个子数组的分区函数，这两个子数组其中一个里的所有元素都小于一个给定的数，另一个则大于该数。这意味着相对于另一半，你“排序”了一半的数组。你能重复利用分区来排序整个数组吗？</p>
+<h2 id="Guideline-（指引）"><a href="#Guideline-（指引）" class="headerlink" title="Guideline （指引）"></a>Guideline （指引）</h2><p>In Insertion Sort, you simply went through each element in order and inserted it into a sorted sub-array. In this challenge, you cannot focus on one element at a time, but instead must deal with whole sub-arrays, with a strategy known as “divide and conquer”.</p>
+<p>When partition is called on an array, two parts of the array get ‘sorted’ with respect to each other. If partition is then called on each sub-array, the array will now be split into four parts. This process can be repeated until the sub-arrays are small. Notice that when partition is called on just one of the numbers, they end up being sorted.</p>
+<p>Can you repeatedly call partition so that the entire array ends up sorted?<br>在插入排序中，你只需简单的地按序检查每一个元素然后将其插入到已排序的子数组中。在本次任务中，你不能仅仅每次只关注一个元素，相反地必须使用“分治”的策略来处理整个子数组。</p>
+<p>当对一个数组进行分区操作时，数组的两部分对彼此来说已经“有序”了。如果对于每个子数组再进行分区操作，原数组将分成四部分。这个过程可以一直重复直到子数组变得很小。请注意这一点：当仅对其中的一个数进行分区操作时，这些数其实已经有序了。</p>
+<p>你能重复调用分区函数使得最终整个数组有序吗？</p>
+<h2 id="Print-Sub-Arrays-（打印子数组）"><a href="#Print-Sub-Arrays-（打印子数组）" class="headerlink" title="Print Sub-Arrays （打印子数组）"></a>Print Sub-Arrays （打印子数组）</h2><p>In this challenge, print your array every time your partitioning method finishes, i.e. whenever two subarrays, along with the pivot, is merged together.</p>
+<p>The first element in a sub-array should be used as a pivot.<br>Partition the left side before partitioning the right side.<br>The pivot should be placed between sub-arrays while merging them.<br>Array of length 1  or less will be considered sorted, and there is no need to sort or to print them.<br>在本次任务中，每次分区结束后打印你的数组。</p>
+<p>子数组中的第一个元素作为基准。<br>先对左边的分区，再对后边的分区。<br>基准应在合并左右两个子数组时放与两者之间。<br>数组长度小于等于1的视为有序，不需排序或打印</p>
+<h2 id="Note-（注意）"><a href="#Note-（注意）" class="headerlink" title="Note （注意）"></a>Note （注意）</h2><p>Please maintain the original order of the elements in the left and right partitions while partitioning around a pivot element.</p>
+<p>For example: Partition about the first element for the array A[]={5, 8, 1, 3, 7, 9, 2} will be {1, 3, 2, 5, 8, 7, 9}<br>当围绕基准元素分区时，请保持左右分区中元素原先的前后顺序。<br>例如：对数组A[]={5, 8, 1, 3, 7, 9, 2} 的第一个元素进行分区的结果该是{1, 3, 2, 5, 8, 7, 9}</p>
+<h2 id="Input-Format-（输入格式）"><a href="#Input-Format-（输入格式）" class="headerlink" title="Input Format （输入格式）"></a>Input Format （输入格式）</h2><p>There will be two lines of input:</p>
+<ul>
+<li>n the size of the array</li>
+<li>ar the n numbers of the array<br>两行：<br>-数组大小n<br>-数组中的n个元素<h2 id="Output-Format-（输出格式）"><a href="#Output-Format-（输出格式）" class="headerlink" title="Output Format （输出格式）"></a>Output Format （输出格式）</h2>Print every partitioned sub-array on a new line.<br>每次分区后的结果在新的一行输出<h2 id="Constraints-（约束条件）"><a href="#Constraints-（约束条件）" class="headerlink" title="Constraints （约束条件）"></a>Constraints （约束条件）</h2>1&lt;=n&lt;1000<br>-1000&lt;=x&lt;=1000<br>Each number is unique.</li>
+</ul>
+<h2 id="Sample-Input（输入样例）"><a href="#Sample-Input（输入样例）" class="headerlink" title="Sample Input（输入样例）"></a>Sample Input（输入样例）</h2><p>7<br>5 8 1 3 7 9 2</p>
+<h2 id="Sample-Output（输出样例）"><a href="#Sample-Output（输出样例）" class="headerlink" title="Sample Output（输出样例）"></a>Sample Output（输出样例）</h2><p>2 3<br>1 2 3<br>7 8 9<br>1 2 3 5 7 8 9</p>
+<h2 id="Explanation-（解释）"><a href="#Explanation-（解释）" class="headerlink" title="Explanation （解释）"></a>Explanation （解释）</h2><p>This is a diagram of Quicksort operating on the sample array:<br>下面是样例的一个快排示意图</p>
+<p><img src="Quicksort-2-Sorting/QuickSort.png" alt="quick-sort diagram"></p>
+<h2 id="Task-（任务）"><a href="#Task-（任务）" class="headerlink" title="Task （任务）"></a>Task （任务）</h2><p>The method quickSort takes in a parameter, ar, an unsorted array. Use the Quicksort algorithm to sort the entire array.<br>函数quickSort有一个未排序的数组ar作参数。使用快排算法对数组排序<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt; &amp;arr,<span class="keyword">int</span> p,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt; left,right;</span><br><span class="line">    <span class="keyword">int</span> x=arr[p];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j=p+<span class="number">1</span>;j&lt;=r;j++)&#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[j]&lt;x)&#123;</span><br><span class="line">           left.push_back(arr[j]);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            right.push_back(arr[j]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;left.size();i++)&#123;</span><br><span class="line">        arr[i+p]=left[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> q=p+left.size();</span><br><span class="line">    arr[q]=x;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;right.size();i++)&#123;</span><br><span class="line">        arr[i+q+<span class="number">1</span>]=right[i];</span><br><span class="line">    &#125;        </span><br><span class="line">    <span class="keyword">return</span> q;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt; &amp;arr,<span class="keyword">int</span> p,<span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (p&lt;r)&#123;</span><br><span class="line">        <span class="keyword">int</span> q=partition(arr,p,r);                 </span><br><span class="line">        quickSort(arr,p,q<span class="number">-1</span>);</span><br><span class="line">        quickSort(arr,q+<span class="number">1</span>,r);</span><br><span class="line">        <span class="comment">//print sub-array</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=p;i&lt;=r;i++)&#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;arr[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; n;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt; arr(n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; (<span class="keyword">int</span>)n; ++i) &#123;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; arr[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    quickSort(arr,<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>分成left,right,equal三部分会很清楚，但实际排序时没必要建立left,right数组，完全可以实现就地(in-place)排序,否则如上面的代码显示的一个浪费O(n)的空间，另外还要额外合并的时间(merge),而就地排序这两个问题都可以解决<br>代码如下：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> &amp;a,<span class="keyword">int</span> &amp;b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> t=a;</span><br><span class="line">    a=b;</span><br><span class="line">    b=t;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt; &amp;arr,<span class="keyword">int</span> p,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x=arr[p];</span><br><span class="line">    <span class="keyword">int</span> i=p;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j=p+<span class="number">1</span>;j&lt;=r;j++)&#123;</span><br><span class="line">        <span class="keyword">if</span> (arr[j]&lt;x)&#123;</span><br><span class="line">           i++;</span><br><span class="line">           swap(arr[i],arr[j]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    swap(arr[p],arr[i]);       </span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt; &amp;arr,<span class="keyword">int</span> p,<span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (p&lt;r)&#123;</span><br><span class="line">        <span class="keyword">int</span> q=partition(arr,p,r);                 </span><br><span class="line">        quickSort(arr,p,q<span class="number">-1</span>);</span><br><span class="line">        quickSort(arr,q+<span class="number">1</span>,r);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; n;</span><br><span class="line">    <span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt; arr(n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; (<span class="keyword">int</span>)n; ++i) &#123;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; arr[i];</span><br><span class="line">    &#125;</span><br><span class="line">    quickSort(arr,<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;arr[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/21/Quicksort-2-Sorting/" data-id="cjdyah4ha000f2ga331zhewwq" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sorting/">sorting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Quicksort 1 - Partition" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/20/Quicksort 1 - Partition/" class="article-date">
+  <time datetime="2016-06-20T07:59:59.000Z" itemprop="datePublished">2016-06-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/20/Quicksort 1 - Partition/">Quicksort 1 - Partition</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>The previous challenges covered Insertion Sort, which is a simple and intuitive sorting algorithm with an average case performance of O(n^2). In these next few challenges, we’re covering a divide-and-conquer algorithm called Quicksort (also known as Partition Sort).<br>在前面的任务中提及的插入排序，是一种很简单直观的排序算法，其平均算法复杂度为O(n^2).在接下来的一些任务中，我们将涉及到一种分治的算法成为快速排序（又称分区排序）。</p>
+<h2 id="Step-1-Divide-（第一步：分解）"><a href="#Step-1-Divide-（第一步：分解）" class="headerlink" title="Step 1: Divide （第一步：分解）"></a>Step 1: Divide （第一步：分解）</h2><p>Choose some pivot element, p, and partition your unsorted array,ar , into three smaller arrays:left ,right , and equal, where each element in left&lt;p, each element in right&gt;p, and each element in equal=p.<br>选择某个基准元素p，然后将你待排序的数组ar分成三个小的数组left，right，equal，所有其中的元素满足：left&lt;p,right&gt;p,equal=p</p>
+<h2 id="Challenge-任务"><a href="#Challenge-任务" class="headerlink" title="Challenge (任务)"></a>Challenge (任务)</h2><p>Given ar and p=ar[0] , partition ar into left,right , and equal using the Divide instructions above. Then print each element in left followed by each element in equal, followed by each element in right on a single line. Your output should be space-separated.</p>
+<p>Note: There is no need to sort the elements in-place; you can create two lists and stitch them together at the end.<br>给你数组ar和p=ar[0],使用上面的分解指令将ar分成left，right，equal。然后依次打印left，equal，right中的元素，用空格隔开。</p>
+<h2 id="Input-Format（输入格式）"><a href="#Input-Format（输入格式）" class="headerlink" title="Input Format（输入格式）"></a>Input Format（输入格式）</h2><p>The first line contains n (the size of ar).<br>The second line contains n space-separated integers describing ar (the unsorted array). The first integer (corresponding to ar[0]) is your pivot element,p.<br>第一行为n<br>第二行为n个空格隔开的ar中的整数，p=ar[0]</p>
+<h2 id="Constraints（约束条件）"><a href="#Constraints（约束条件）" class="headerlink" title="Constraints（约束条件）"></a>Constraints（约束条件）</h2><ul>
+<li>1&lt;=n&lt;=1000</li>
+<li>-1000&lt;=x&lt;=1000,x in ar<br>All elements will be unique.<br>Multiple answer can exists for the given test case. Print any one of them.<br>所有元素唯一，答案不唯一，可以打印其中任何一个<h2 id="Output-Format（输出格式）"><a href="#Output-Format（输出格式）" class="headerlink" title="Output Format（输出格式）"></a>Output Format（输出格式）</h2></li>
+</ul>
+<p>On a single line, print the partitioned numbers (i.e.: the elements in left, then the elements in equal, and then the elements in right). Each integer should be separated by a single space.<br>一行，输出分区后的数字</p>
+<h2 id="Sample-Input（输入样例）"><a href="#Sample-Input（输入样例）" class="headerlink" title="Sample Input（输入样例）"></a>Sample Input（输入样例）</h2><p>5<br>4 5 3 7 2</p>
+<h2 id="Sample-Output（输出样例）"><a href="#Sample-Output（输出样例）" class="headerlink" title="Sample Output（输出样例）"></a>Sample Output（输出样例）</h2><p>3 2 4 5 7</p>
+<h2 id="Explanation（解释）"><a href="#Explanation（解释）" class="headerlink" title="Explanation（解释）"></a>Explanation（解释）</h2><p>ar=[4,5,3,7,2]</p>
+<p>Pivot: p=ar[0]=4.<br>left={};equal{4} ;right={} </p>
+<p>ar[1]=5&gt;=p, so it’s added to right.<br>left={};equal{4} ;right={5} </p>
+<p>ar[2]=3&lt;=p, so it’s added toleft.<br>left={3};equal{4} ;right={5} </p>
+<p>ar[3]=7&gt;=p, so it’s added to right.<br>left={3};equal{4} ;right={5,7} </p>
+<p>ar[4]=2&lt;=p, so it’s added to left.<br>left={3,2};equal{4} ;right={5,7} </p>
+<p>We then print the elements of left, followed by equal, followed by right, we get: 3 2 4 5 7.</p>
+<p>This example is only one correct answer based on the implementation shown, but it is not the only correct answer (e.g.: another valid solution would be 2 3 4 5 7).<br>这只是其中一个正确的答案（答案还可能是2 3 4 5 7）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">partition</span><span class="params">(<span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt;  ar)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Enter code for partitioning and printing here. </span></span><br><span class="line">    <span class="keyword">int</span> p=ar[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">int</span> i=<span class="number">0</span>; <span class="comment">//right bounder of left partition </span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;ar.size();j++)&#123; <span class="comment">//go through all the elements in ar</span></span><br><span class="line">        <span class="keyword">if</span> (ar[j]&lt;p)&#123; <span class="comment">//add to left partition</span></span><br><span class="line">            i++;</span><br><span class="line">            <span class="keyword">int</span> t=ar[i];</span><br><span class="line">            ar[i]=ar[j];</span><br><span class="line">            ar[j]=t;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> t=ar[<span class="number">0</span>];ar[<span class="number">0</span>]=ar[i];ar[i]=t;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;ar.size();i++)&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;ar[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">   <span class="built_in">vector</span> &lt;<span class="keyword">int</span>&gt;  _ar;</span><br><span class="line">   <span class="keyword">int</span> _ar_size;</span><br><span class="line">   <span class="built_in">cin</span> &gt;&gt; _ar_size;</span><br><span class="line">    </span><br><span class="line">     <span class="keyword">for</span>(<span class="keyword">int</span> _ar_i=<span class="number">0</span>; _ar_i&lt;_ar_size; _ar_i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> _ar_tmp;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; _ar_tmp;</span><br><span class="line">        _ar.push_back(_ar_tmp); </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   partition(_ar);</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/20/Quicksort 1 - Partition/" data-id="cjdyah4h7000d2ga3v3r6e53h" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sorting/">sorting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-The Full Counting Sort" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/17/The Full Counting Sort/" class="article-date">
+  <time datetime="2016-06-17T07:59:59.000Z" itemprop="datePublished">2016-06-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/17/The Full Counting Sort/">The Full Counting Sort</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>完整的计数排序</p>
+<p>In this challenge you need to print the data that accompanies each integer in a list. In addition, if two strings have the same integers, you need to print the strings in their original order. Hence, your sorting algorithm should be stable, i.e. the original order should be maintained for equal elements.</p>
+<p>Insertion Sort and the simple version of Quicksort were stable, but the faster in-place version of Quicksort was not (since it scrambled around elements while sorting).</p>
+<p>In cases where you care about the original order, it is important to use a stable sorting algorithm. In this challenge, you will use counting sort to sort a list while keeping the order of the strings (with the accompanying integer) preserved.<br>在本次任务中你将列表中与整数相关的数据。另外，如果两个字符串对应的整数相同，那么你需要按原来字符串出现的顺序打印它们。因此，你的排序算法必须是稳定的。意即，对于相同的元素必须维持其原来的先后顺序。</p>
+<h2 id="Challenge-（任务）"><a href="#Challenge-（任务）" class="headerlink" title="Challenge （任务）"></a>Challenge （任务）</h2><p>In the previous challenge, you created a “helper array” that contains information about the starting position of each element in a sorted array. Can you use this array to help you create a sorted array of the original list?</p>
+<p>Hint: You can go through the original array to access the strings. You can then use your helper array to help determine where to place those strings in the sorted array. Be careful about being one off.</p>
+<p>Details and a Twist<br>You will be given a list that contains both integers and strings. Can you print the strings in order of their accompanying integers? If the integers for two strings are equal, ensure that they are print in the order they appeared in the original list.</p>
+<p>The Twist - Your clients just called with an update. They don’t want you to print the first half of the original array. Instead, they want you to print a dash for any element from the first half.<br>在上一任务中，你创建了一个辅助数组，其中包含排序后数组中每个元素的起始位置信息。你能否利用此数组获得原列表的排序后的数组呢？</p>
+<p>提示：你可以遍历原数组来访问获取字符串。你可以利用你的辅助数组来帮助你确定将字符串放到排序后的数组中的具体位置。注意记得减1.</p>
+<p>细节和Twist：<br>给你一个包含整数和字符串的列表。你能按照整数的排序顺序打印出对应的字符串吗？如果两个整数一样，那么按照原来列表中出现的顺序打印。</p>
+<p>Twist：你的客户刚刚电话要求更新要求。他们不希望你打印原列表的前半部分。相反的，他们希望你将前半部分的任何一个元素用破折号“-”替换。</p>
+<h2 id="Input-Format-（输入格式）"><a href="#Input-Format-（输入格式）" class="headerlink" title="Input Format （输入格式）"></a>Input Format （输入格式）</h2><ul>
+<li>n, the size of the list ar. </li>
+<li>n lines follow, each containing an integer x and a string s.</li>
+<li>列表大小n</li>
+<li>接下来n行，每行包含一个整数x和一个字符串s<h2 id="Output-Format-（输出格式）"><a href="#Output-Format-（输出格式）" class="headerlink" title="Output Format （输出格式）"></a>Output Format （输出格式）</h2>Print the strings in their correct order.<br>按正确的顺序打印字符串<h2 id="Constraints-（约束条件）"><a href="#Constraints-（约束条件）" class="headerlink" title="Constraints （约束条件）"></a>Constraints （约束条件）</h2>100&lt;=n&lt;=10^6<br>0&lt;=x&lt;100<br>n is even<br>1&lt;=length(s) &lt;=10<br>n是偶数</li>
+</ul>
+<p>The characters in every string in lowercase.<br>字符串中所有字符为小写</p>
+<h2 id="Sample-Input-输入样例"><a href="#Sample-Input-输入样例" class="headerlink" title="Sample Input(输入样例)"></a>Sample Input(输入样例)</h2><p>20<br>0 ab<br>6 cd<br>0 ef<br>6 gh<br>4 ij<br>0 ab<br>6 cd<br>0 ef<br>6 gh<br>0 ij<br>4 that<br>3 be<br>0 to<br>1 be<br>5 question<br>1 or<br>2 not<br>4 is<br>2 to<br>4 the</p>
+<h2 id="Sample-Output（输出样例）"><a href="#Sample-Output（输出样例）" class="headerlink" title="Sample Output（输出样例）"></a>Sample Output（输出样例）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- - - - - to be or not to be - that is the question - - - -</span><br></pre></td></tr></table></figure>
+<h2 id="Explanation-（解释）"><a href="#Explanation-（解释）" class="headerlink" title="Explanation （解释）"></a>Explanation （解释）</h2><p>Below is the list in the correct order. The strings of each number were printed above for the second half of the array. Elements from the first half of the original array were replaced with dashes.<br>下面是正确的排序。<br>0 ab<br>0 ef<br>0 ab<br>0 ef<br>0 ij<br>0 to<br>1 be<br>1 or<br>2 not<br>2 to<br>3 be<br>4 ij<br>4 that<br>4 is<br>4 the<br>5 question<br>6 cd<br>6 gh<br>6 cd<br>6 gh</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> c[<span class="number">100</span>],a[<span class="number">1000001</span>];</span><br><span class="line"><span class="built_in">string</span> s[<span class="number">1000001</span>],r[<span class="number">1000001</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;a[i]&gt;&gt;s[i];</span><br><span class="line">        <span class="keyword">if</span> (i&lt;n / <span class="number">2</span>)&#123;</span><br><span class="line">            s[i]=<span class="string">"-"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        c[a[i]]++;</span><br><span class="line">    &#125;</span><br><span class="line">    c[<span class="number">0</span>]--;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;<span class="number">100</span>;i++)&#123;</span><br><span class="line">        c[i]+=c[i<span class="number">-1</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=n<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        r[c[a[i]]]=s[i];</span><br><span class="line">        c[a[i]]--;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;r[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/17/The Full Counting Sort/" data-id="cjdyah4he000k2ga3d327m3e5" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sorting/">sorting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Counting-Sort-3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/17/Counting-Sort-3/" class="article-date">
+  <time datetime="2016-06-17T05:59:59.000Z" itemprop="datePublished">2016-06-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/17/Counting-Sort-3/">Counting Sort 3 (计数排序 3)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>In the previous challenge, it was easy to print all the integers in order, since you did not have to access the original list. Once you had obtained the frequencies of all the integers, you could simply print each integer in order the correct number of times. However, if there is other data associated with an element, you will have to access the original element itself.</p>
+<p>In the final counting sort challenge, you are required to print the data associated with each integer. This means, you will go through the original array to get the data, and then use some “helper arrays” to determine where to place everything in a sorted array.</p>
+<p>If you know the frequencies of each element, you know how many times to place it, but which index will you start placing it from? It will be helpful to create a helper array for the “starting values” of each element.<br>在前面的任务里，将列表中的整数按序输出是很简单的，因为你不需要访问原列表。一旦你获得了所有整数的出现频率，你就可以简单地按序打印每个整数的次数。但是，如果有其他数据跟每个元素有关联，那么你就必须访问原来的元素本身了。</p>
+<p>在最后这个任务里，你被要求打印与整数关联的数据。这意味着你需要回到原列表取获取数据，并且使用一些“辅助数组”来确定在哪里将所有数据按序存放。</p>
+<p>如果你知道每个元素的出现频率，你知道这样的元素需要存储多少次，但是，从哪个位置开始存储呢？所以在这里建立一个辅助数组储存每个元素的“起始位置”将会非常有帮助。</p>
+<h2 id="Challenge-（任务）"><a href="#Challenge-（任务）" class="headerlink" title="Challenge （任务）"></a>Challenge （任务）</h2><p>You will be given a list that contains both integers and strings. In this challenge you just care about the integers. For every value i from 0 to 99, can you output L, the number of elements that are less than or equal to i?<br>给你一个列表，包含整数和字符串。本任务你只需关注整数。对于每个整数i，能否输出小于等于i的数的个数L？</p>
+<h2 id="Input-Format-（输入格式）"><a href="#Input-Format-（输入格式）" class="headerlink" title="Input Format （输入格式）"></a>Input Format （输入格式）</h2><ul>
+<li>n, the size of the list ar. </li>
+<li>n lines follow, each containing an integer x and a string s.</li>
+<li>列表大小n</li>
+<li>接下来n行，每行一个整数x和一个字符串s<h2 id="Output-Format-（输出格式）"><a href="#Output-Format-（输出格式）" class="headerlink" title="Output Format （输出格式）"></a>Output Format （输出格式）</h2>Output L for all numbers from 0 to 99 (inclusive).<br>输出0～99这些数的L<h2 id="Constraints-（约束条件）"><a href="#Constraints-（约束条件）" class="headerlink" title="Constraints （约束条件）"></a>Constraints （约束条件）</h2>100&lt;=n&lt;=10^6<br>0&lt;=x&lt;100<br>length of string&lt;=10 </li>
+</ul>
+<h2 id="Sample-Input（样例输入）"><a href="#Sample-Input（样例输入）" class="headerlink" title="Sample Input（样例输入）"></a>Sample Input（样例输入）</h2><p>10<br>4 that<br>3 be<br>0 to<br>1 be<br>5 question<br>1 or<br>2 not<br>4 is<br>2 to<br>4 the</p>
+<h2 id="Sample-Output（样例输出）"><a href="#Sample-Output（样例输出）" class="headerlink" title="Sample Output（样例输出）"></a>Sample Output（样例输出）</h2><p>1 3 5 6 9 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 </p>
+<h2 id="Explanation-（解释）"><a href="#Explanation-（解释）" class="headerlink" title="Explanation （解释）"></a>Explanation （解释）</h2><p>0 appears 1 time, so the 0th number is 1.<br>0 and 1 combined appear 3 times, so the next number is 3.<br>This continues for the rest of the list, until no more new numbers appear.<br>0出现1次，所以小于等于1的有1个，0和1共出现3次，所以小于等于2的有3个…</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>,val;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">string</span> str;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;val&gt;&gt;str;</span><br><span class="line">        a[val]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> s=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> val=<span class="number">0</span>;val&lt;<span class="number">100</span>;val++)&#123;</span><br><span class="line">        s+=a[val];</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;s&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>同样基于后续任务及题目中提及的辅助数组概念，将程序调整如下，生成辅助数组L然后输出<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a[<span class="number">100</span>],L[<span class="number">100</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>,val;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">string</span> str;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;val&gt;&gt;str;</span><br><span class="line">        a[val]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> s=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> val=<span class="number">0</span>;val&lt;<span class="number">100</span>;val++)&#123;</span><br><span class="line">        s+=a[val];</span><br><span class="line">        L[val]=s;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;s&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/17/Counting-Sort-3/" data-id="cjdyah4gq00052ga35dbieoyy" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sorting/">sorting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Counting-Sort-1 (cn)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/17/Counting-Sort-1 (cn)/" class="article-date">
+  <time datetime="2016-06-17T04:59:59.000Z" itemprop="datePublished">2016-06-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/17/Counting-Sort-1 (cn)/">计数排序 1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="比较排序"><a href="#比较排序" class="headerlink" title="比较排序"></a>比较排序</h2><p>Quicksort usually has a running time of , but is there an algorithm that can sort even faster? In general, this is not possible. Most sorting algorithms are comparison sorts, i.e. they sort a list just by comparing the elements to one another. A comparison sort algorithm cannot beat  n×log(n)(worst-case) running time, since represents the minimum number of comparisons needed to know where to place each element. For more details, you can see these notes (PDF).<br>快速排序运行时间为n×log(n),有没有再快一点的排序算法呢？通常来说是不可能的。大多数的排序算法属于比较型排序，意即，通过元素间两两比较来实现一组数的排序。比较排序的运行时间（最坏情况）无法比n×log(n)更快，因为 n×log(n) 是确定一组数中每个数最终排序位置的最小比较次数。具体细节可以参看<a href="http://www.cs.cmu.edu/~avrim/451f11/lectures/lect0913.pdf" target="_blank" rel="noopener">这些笔记</a></p>
+<h2 id="其他排序"><a href="#其他排序" class="headerlink" title="其他排序"></a>其他排序</h2><p>However, for certain types of input, it is more efficient to use a non-comparison sorting algorithm. This will make it possible to sort lists even in linear time. These challenges will cover Counting Sort, a fast way to sort lists where the elements have a small number of possible values, such as integers within a certain range. We will start with an easy task - counting.<br>但是，对于某些特定输入，使用非比较的排序算法可能更为有效。这有可能实现线性时间内的排序。接下来的任务将涉及计数排序，一种当所有元素的取值都比较小，如处于一个较小的数据范围内的整数时的快速的排序方法。我们先来完成一个简单的任务：<strong>计数</strong>。</p>
+<h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><p>Given a list of integers, can you count and output the number of times each value appears?</p>
+<p>Hint: There is no need to sort the data, you just need to count it.<br>给你一组整数，你能统计并输出每个数出现的次数吗？<br>提示：没必要对数据排序，你仅需要做统计</p>
+<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>There will be two lines of input:</p>
+<ul>
+<li>the size of the list</li>
+<li>space-separated numbers that make up the list<br>Output Format<br>Output the number of times every number from  to  (inclusive) appears on the list.<br>输入有两行：<br>-这组数的个数n<br>-以空格隔开的这组数<h2 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h2>100&lt;=n&lt;=10^6<br>0&lt;=x&lt;100 (x为整数)</li>
+</ul>
+<h2 id="输入样例"><a href="#输入样例" class="headerlink" title="输入样例"></a>输入样例</h2><p>100<br>63 25 73 1 98 73 56 84 86 57 16 83 8 25 81 56 9 53 98 67 99 12 83 89 80 91 39 86 76 85 74 39 25 90 59 10 94 32 44 3 89 30 27 79 46 96 27 32 18 21 92 69 81 40 40 34 68 78 24 87 42 69 23 41 78 22 6 90 99 89 50 30 20 1 43 3 70 95 33 46 44 9 69 48 33 60 65 16 82 67 61 32 21 79 75 75 13 87 70 33 </p>
+<h2 id="输出样例"><a href="#输出样例" class="headerlink" title="输出样例"></a>输出样例</h2><p>0 2 0 2 0 0 1 0 1 2 1 0 1 1 0 0 2 0 1 0 1 2 1 1 1 3 0 2 0 0 2 0 3 3 1 0 0 0 0 2 2 1 1 1 2 0 2 0 1 0 1 0 0 1 0 0 2 1 0 1 1 1 0 1 0 1 0 2 1 3 2 0 0 2 1 2 1 0 2 2 1 2 1 2 1 1 2 2 0 3 2 1 1 0 1 1 1 0 2 2 </p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>The output states that 0 appears 0 times, 1 appears 2 times, 2 appears 0 times, and so on in the given input array.<br>输出显示0出现0次，1出现2次，2出现0次，…</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n,val;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;val;</span><br><span class="line">        a[val]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++)&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;a[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/17/Counting-Sort-1 (cn)/" data-id="cjdyah4dr00002ga39qsk6i78" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sorting/">sorting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Counting-Sort-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/17/Counting-Sort-2/" class="article-date">
+  <time datetime="2016-06-17T04:59:59.000Z" itemprop="datePublished">2016-06-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/17/Counting-Sort-2/">Counting Sort 2 (计数排序 2)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Often, when a list is sorted, the elements being sorted are just keys to other values. For example, if you are sorting files by their size, the sizes need to stay connected to their respective files. You cannot just take the size numbers and output them in order, you need to output all the required file information.</p>
+<p>However, if you are not concerned about any other information, then you can simply sort those numbers alone. This makes counting sort very simple. If you already counted the values in the list, you don’t need to access the original list again. This challenge involves a simple counting sort where the elements being sorted are all that matter.<br>通常，当一个列表被排序时，被排序的元素只是其他值的键。例如，当你基于文件大小对文件排序时，文件大小需要与文件关联在一起。你不能仅仅取文件大小然后按顺序输出，你需要输出所有的文件信息。</p>
+<p>但是，如果你并不关心其他信息，那么你可以只是简单地对这些数字排序。这会使得计数排序变得非常简单。如果你已经对列表计数，你无需访问原列表。下面的任务是就是这种情况下的一个简单的计数排序。</p>
+<h2 id="Challenge（任务）"><a href="#Challenge（任务）" class="headerlink" title="Challenge（任务）"></a>Challenge（任务）</h2><p>Given an unsorted list of integers, output the integers in order.</p>
+<p>Hint: You can use your previous code that counted the items to print out the actual values in order.<br>给你一个未排序的整数列表，输出排序后的列表<br>提示：你可以使用前面的代码来输出排序后的实际数字</p>
+<h2 id="Input-Format（输入格式）"><a href="#Input-Format（输入格式）" class="headerlink" title="Input Format（输入格式）"></a>Input Format（输入格式）</h2><p>There will be two lines of input:</p>
+<ul>
+<li>the size of the list</li>
+<li>space separated numbers that belong to the list<br>两行：</li>
+<li>列表大小</li>
+<li>列表中的整数以空格隔开<h2 id="Output-Format-（输出格式）"><a href="#Output-Format-（输出格式）" class="headerlink" title="Output Format （输出格式）"></a>Output Format （输出格式）</h2>Output all the numbers of the list in order.<br>输出排序后的列表<h2 id="Constraints-（约束条件）"><a href="#Constraints-（约束条件）" class="headerlink" title="Constraints （约束条件）"></a>Constraints （约束条件）</h2>100&lt;=n&lt;=10^6<br>0&lt;=x&lt;100 </li>
+</ul>
+<h2 id="Sample-Input（输入样例）"><a href="#Sample-Input（输入样例）" class="headerlink" title="Sample Input（输入样例）"></a>Sample Input（输入样例）</h2><p>100<br>63 25 73 1 98 73 56 84 86 57 16 83 8 25 81 56 9 53 98 67 99 12 83 89 80 91 39 86 76 85 74 39 25 90 59 10 94 32 44 3 89 30 27 79 46 96 27 32 18 21 92 69 81 40 40 34 68 78 24 87 42 69 23 41 78 22 6 90 99 89 50 30 20 1 43 3 70 95 33 46 44 9 69 48 33 60 65 16 82 67 61 32 21 79 75 75 13 87 70 33 </p>
+<h2 id="Sample-Output（输出样例）"><a href="#Sample-Output（输出样例）" class="headerlink" title="Sample Output（输出样例）"></a>Sample Output（输出样例）</h2><p>1 1 3 3 6 8 9 9 10 12 13 16 16 18 20 21 21 22 23 24 25 25 25 27 27 30 30 32 32 32 33 33 33 34 39 39 40 40 41 42 43 44 44 46 46 48 50 53 56 56 57 59 60 61 63 65 67 67 68 69 69 69 70 70 73 73 74 75 75 76 78 78 79 79 80 81 81 82 83 83 84 85 86 86 87 87 89 89 89 90 90 91 92 94 95 96 98 98 99 99 </p>
+<h2 id="Explanation（解释）"><a href="#Explanation（解释）" class="headerlink" title="Explanation（解释）"></a>Explanation（解释）</h2><p>In the output you can see the numbers sorted in ascending order. You can also see that numbers appearing multiple times are printed accordingly.<br>在输出里你空间所有数字以升序输出，并且多次出现的数字也相应地打印出来了。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n,val;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;val;</span><br><span class="line">        a[val]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> val=<span class="number">0</span>;val&lt;<span class="number">100</span>;val++)&#123;</span><br><span class="line">        <span class="keyword">while</span> (a[val]&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;val&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">            a[val]--;</span><br><span class="line">        &#125;        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>到这里本任务其实已经算完成了，但是为了与后面环节关联，我们可以将任务稍作修改：最后不仅仅是输出排序后的结果，而是先将排序后的数存储在一个新的列表b中,再输出。</p>
+<p>那么我们需要对程序稍作调整：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100</span>],b[<span class="number">1000000</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n,val;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;val;</span><br><span class="line">        a[val]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> val=<span class="number">0</span>,i=<span class="number">0</span>;val&lt;<span class="number">100</span>;val++)&#123;</span><br><span class="line">        <span class="keyword">while</span> (a[val]&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            b[i]=val;            </span><br><span class="line">            a[val]--;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;b[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/17/Counting-Sort-2/" data-id="cjdyah4go00042ga3g7xyyp09" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sorting/">sorting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Counting-Sort-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/17/Counting-Sort-1/" class="article-date">
+  <time datetime="2016-06-17T04:59:59.000Z" itemprop="datePublished">2016-06-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/17/Counting-Sort-1/">Counting Sort 1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Comparison-Sorting"><a href="#Comparison-Sorting" class="headerlink" title="Comparison Sorting"></a>Comparison Sorting</h2><p>Quicksort usually has a running time of n*log(n) , but is there an algorithm that can sort even faster? In general, this is not possible. Most sorting algorithms are comparison sorts, i.e. they sort a list just by comparing the elements to one another. A comparison sort algorithm cannot beat  n×log(n) (worst-case) running time, since n×log(n) represents the minimum number of comparisons needed to know where to place each element. For more details, you can see these notes (PDF).</p>
+<h2 id="Alternative-Sorting"><a href="#Alternative-Sorting" class="headerlink" title="Alternative Sorting"></a>Alternative Sorting</h2><p>However, for certain types of input, it is more efficient to use a non-comparison sorting algorithm. This will make it possible to sort lists even in linear time. These challenges will cover Counting Sort, a fast way to sort lists where the elements have a small number of possible values, such as integers within a certain range. We will start with an easy task - counting.</p>
+<h2 id="Challenge"><a href="#Challenge" class="headerlink" title="Challenge"></a>Challenge</h2><p>Given a list of integers, can you count and output the number of times each value appears?</p>
+<p>Hint: There is no need to sort the data, you just need to count it.</p>
+<h2 id="Input-Format"><a href="#Input-Format" class="headerlink" title="Input Format"></a>Input Format</h2><p>There will be two lines of input:</p>
+<ul>
+<li>the size of the list</li>
+<li>space-separated numbers that make up the list<br>Output Format<br>Output the number of times every number from  to  (inclusive) appears on the list.</li>
+</ul>
+<h2 id="Constraints"><a href="#Constraints" class="headerlink" title="Constraints"></a>Constraints</h2><p> 100&lt;=n&lt;=10^6<br> 0&lt;=x&lt;100 (x is integer)</p>
+<h2 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input"></a>Sample Input</h2><p>100<br>63 25 73 1 98 73 56 84 86 57 16 83 8 25 81 56 9 53 98 67 99 12 83 89 80 91 39 86 76 85 74 39 25 90 59 10 94 32 44 3 89 30 27 79 46 96 27 32 18 21 92 69 81 40 40 34 68 78 24 87 42 69 23 41 78 22 6 90 99 89 50 30 20 1 43 3 70 95 33 46 44 9 69 48 33 60 65 16 82 67 61 32 21 79 75 75 13 87 70 33 </p>
+<h2 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output"></a>Sample Output</h2><p>0 2 0 2 0 0 1 0 1 2 1 0 1 1 0 0 2 0 1 0 1 2 1 1 1 3 0 2 0 0 2 0 3 3 1 0 0 0 0 2 2 1 1 1 2 0 2 0 1 0 1 0 0 1 0 0 2 1 0 1 1 1 0 1 0 1 0 2 1 3 2 0 0 2 1 2 1 0 2 2 1 2 1 2 1 1 2 2 0 3 2 1 1 0 1 1 1 0 2 2 </p>
+<h2 id="Explanation"><a href="#Explanation" class="headerlink" title="Explanation"></a>Explanation</h2><p>The output states that 0 appears 0 times, 1 appears 2 times, 2 appears 0 times, and so on in the given input array.<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n,val;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;val;</span><br><span class="line">        a[val]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++)&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;a[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/17/Counting-Sort-1/" data-id="cjdyah4gm00032ga3raxg4woa" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sorting/">sorting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-关于Hexo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/20/关于Hexo/" class="article-date">
+  <time datetime="2016-05-20T00:20:06.000Z" itemprop="datePublished">2016-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/20/关于Hexo/">关于Hexo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>see:<a href="http://moxfive.xyz" target="_blank" rel="noopener">MOxFIVE</a><br><a href="http://lupeng.me/categories/%E6%8A%80%E6%9C%AF/Hexo/" target="_blank" rel="noopener">LP’s Blog</a></p>
+<h2 id="1-一些重要的插件"><a href="#1-一些重要的插件" class="headerlink" title="1. 一些重要的插件"></a>1. 一些重要的<a href="https://hexo.io/plugins/" target="_blank" rel="noopener">插件</a></h2><p>1.<a href="https://github.com/jaredly/hexo-admin" target="_blank" rel="noopener">hexo-admin</a></p>
+<h2 id="2-图标"><a href="#2-图标" class="headerlink" title="2. 图标"></a>2. 图标</h2><p>放在/source/favicon.png</p>
+<h2 id="3-tags"><a href="#3-tags" class="headerlink" title="3.tags"></a>3.tags</h2><p>tags: [tag1,tag2,tag3] 冒号后有一个空格</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/05/20/关于Hexo/" data-id="cjdyah4iu002o2ga3va9vme4f" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/">hexo</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-爬虫抓取USACO-CONTEST" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/20/爬虫抓取USACO-CONTEST/" class="article-date">
+  <time datetime="2016-05-20T00:03:35.000Z" itemprop="datePublished">2016-05-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/20/爬虫抓取USACO-CONTEST/">爬虫抓取USACO CONTEST</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-目标"><a href="#1-目标" class="headerlink" title="1. 目标"></a>1. 目标</h2><p>打算用python将usaco contest上每期的contest抓取下来，后期还将考虑抓取coci，其他OJ上的题目，并自动转为hustoj上的题目格式。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/05/20/爬虫抓取USACO-CONTEST/" data-id="cjdyah4iw002q2ga327eanily" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&laquo; zurück</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">weiter &raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/codeignitor/">codeignitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker，moodle/">docker，moodle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/erp/">erp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-oj/">leetcode,oj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/noip/">noip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/software/">software</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sorting/">sorting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常用/">常用</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/algorithms/" style="font-size: 17.5px;">algorithms</a> <a href="/tags/codeignitor/" style="font-size: 12.5px;">codeignitor</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/docker，moodle/" style="font-size: 10px;">docker，moodle</a> <a href="/tags/erp/" style="font-size: 10px;">erp</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/leetcode-oj/" style="font-size: 10px;">leetcode,oj</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 12.5px;">markdown</a> <a href="/tags/noip/" style="font-size: 10px;">noip</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/sorting/" style="font-size: 17.5px;">sorting</a> <a href="/tags/sublime/" style="font-size: 12.5px;">sublime</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/tutorial/" style="font-size: 20px;">tutorial</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/常用/" style="font-size: 10px;">常用</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/22/leetcode-1-Two-Sum/">[leetcode]1.Two_Sum</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/11/erp-xte/">erp(xte)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/07/showoff-presenter/">showoff presenter</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/06/ruby/">ruby</a>
+          </li>
+        
+          <li>
+            <a href="/2016/07/02/信息学奥赛模拟题模板/">信息学奥赛模拟题模板</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

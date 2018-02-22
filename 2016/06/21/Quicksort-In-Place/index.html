@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Quicksort In-Place | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="原地快数排序The previous version of Quicksort was easy to understand, but it was not optimal. It required copying the numbers into other arrays, which takes up space and time. To make things faster, one can">
+<meta name="keywords" content="algorithms,sorting,tutorial">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Quicksort In-Place">
+<meta property="og:url" content="http://yoursite.com/2016/06/21/Quicksort-In-Place/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="原地快数排序The previous version of Quicksort was easy to understand, but it was not optimal. It required copying the numbers into other arrays, which takes up space and time. To make things faster, one can">
+<meta property="og:image" content="http://yoursite.com/2016/06/21/Quicksort-In-Place/Quicksort-In-Place/Lomuto_animated.gif">
+<meta property="og:image" content="http://yoursite.com/2016/06/21/Quicksort-In-Place/Quicksort-In-Place/QuickSortInPlace.png">
+<meta property="og:updated_time" content="2016-06-22T00:24:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Quicksort In-Place">
+<meta name="twitter:description" content="原地快数排序The previous version of Quicksort was easy to understand, but it was not optimal. It required copying the numbers into other arrays, which takes up space and time. To make things faster, one can">
+<meta name="twitter:image" content="http://yoursite.com/2016/06/21/Quicksort-In-Place/Quicksort-In-Place/Lomuto_animated.gif">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Quicksort-In-Place" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/21/Quicksort-In-Place/" class="article-date">
+  <time datetime="2016-06-21T05:52:29.000Z" itemprop="datePublished">2016-06-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Quicksort In-Place
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原地快数排序<br>The previous version of Quicksort was easy to understand, but it was not optimal. It required copying the numbers into other arrays, which takes up space and time. To make things faster, one can create an “in-place” version of Quicksort, where the numbers are all sorted within the array itself.<br>前面那个版本的快速排序很容易理解，但却不是最佳的。它需要将数字拷贝到其他数组，这需要花费空间和时间。为了更快速，可以建立一个“原地”版本的快排，数字在数组内部实现排序。</p>
+<h2 id="Challenge-（任务）"><a href="#Challenge-（任务）" class="headerlink" title="Challenge （任务）"></a>Challenge （任务）</h2><p>Create an in-place version of Quicksort. You need to follow <a href="http://en.wikipedia.org/wiki/Quicksort#Algorithm" target="_blank" rel="noopener">Lomuto Partitioning</a>method.<br>建立一个原地版本的快排，你需要采用<a href="http://en.wikipedia.org/wiki/Quicksort#Algorithm" target="_blank" rel="noopener">Lomuto Partitioning</a>的方法。</p>
+<h2 id="Guideline-（指引）"><a href="#Guideline-（指引）" class="headerlink" title="Guideline （指引）"></a>Guideline （指引）</h2><p>Instead of copying the array into multiple sub-arrays, use indices to keep track of the different sub-arrays. You can pass the indices to a modified partition method. The partition method should partition the sub-array and then return the index location where the pivot gets placed, so you can then call partition on each side of the pivot.</p>
+<ul>
+<li>Always select the last element in the ‘sub-array’ as a pivot.</li>
+<li>Partition the left side and then the right side of the sub-array.</li>
+<li>Print out the whole array at the end of every partitioning method.</li>
+<li><p>An array of length  1 or less will be considered sorted, and there is no need to sort or to print them.<br>Since you cannot just create new sub-arrays for the elements, partition method will need to use another trick to keep track of which elements are greater and which are lower than the pivot.<br>与原来将数组中的元素拷贝到几个子数组中不同，使用标记标识不同的子数组。你可以将标记传递给修改后的分区函数。分区函数需要分出子数组并返回基准的下标，然后你可以对基准两边继续调用分区操作。</p>
+</li>
+<li><p>从始至终选择子数组中的最后一个元素为基准</p>
+</li>
+<li>先对左边的进行分区然后对右边的分区</li>
+<li>每次分区后输出整个数组</li>
+<li><p>长度小于等于1的数组认为是有序的，无需排序或打印<br>既然你不能另外新开子数组来存储元素，分区函数就需要另外一个技巧来标识哪些元素大于基准哪些元素小于基准。</p>
+<h2 id="The-In-place-Trick-（原地技巧）"><a href="#The-In-place-Trick-（原地技巧）" class="headerlink" title="The In-place Trick （原地技巧）"></a>The In-place Trick （原地技巧）</h2></li>
+<li><p>If an element is lower than the pivot, you should swap it with a larger element on the left-side of the sub-array.</p>
+</li>
+<li>Greater elements should remain where they are.</li>
+<li>At the end of the partitioning method, the pivot should be swapped with the first element of the right partition, consisting of all larger elements, of the sub-array.</li>
+<li>To ensure that you don’t swap a small element with another small element, use an index to keep track of the small elements that have already been swapped into their “place”.</li>
+<li>如果元素小于基准，你需要将它与子数组左边的一个较大元素交换。</li>
+<li>较大的元素维持原地不变</li>
+<li>分区操作结束，基准需要与子数组中的右边分区（包含所有较大元素）的第一个元素交换</li>
+<li>为了确保你不会交换两个较小的元素，使用一个标记标识所有已经通过交换放在正确位置的较小元素<br><img src="Quicksort-In-Place/Lomuto_animated.gif" alt="Lomuto-partitioning"></li>
+</ul>
+<h2 id="Input-Format-（输入格式）"><a href="#Input-Format-（输入格式）" class="headerlink" title="Input Format （输入格式）"></a>Input Format （输入格式）</h2><p>There will be two lines of input:</p>
+<ul>
+<li>n the size of the array</li>
+<li>ar the  numbers of the array<br>两行</li>
+<li>数组大小n</li>
+<li>数组ar中的数<h2 id="Output-Format-（输出格式）"><a href="#Output-Format-（输出格式）" class="headerlink" title="Output Format （输出格式）"></a>Output Format （输出格式）</h2>Print the entire array on a new line at the end of every partitioning method.<br>每行打印每次分区结束后的整个数组<h2 id="Constraints-（约束条件）"><a href="#Constraints-（约束条件）" class="headerlink" title="Constraints （约束条件）"></a>Constraints （约束条件）</h2>1&lt;=n&lt;=5000<br>-10000&lt;=x&lt;=10000<br>There are no duplicate numbers.<br>没有重复的数<h2 id="Sample-Input（输入样例）"><a href="#Sample-Input（输入样例）" class="headerlink" title="Sample Input（输入样例）"></a>Sample Input（输入样例）</h2></li>
+</ul>
+<p>7<br>1 3 9 8 2 7 5</p>
+<h2 id="Sample-Output（输出样例）"><a href="#Sample-Output（输出样例）" class="headerlink" title="Sample Output（输出样例）"></a>Sample Output（输出样例）</h2><p>1 3 2 5 9 7 8<br>1 2 3 5 9 7 8<br>1 2 3 5 7 8 9</p>
+<h2 id="Explanation-（解释）"><a href="#Explanation-（解释）" class="headerlink" title="Explanation （解释）"></a>Explanation （解释）</h2><p>5 is initally selected as the pivot, and the array is partitioned as shown in the diagram. The left side is partitioned next with 2 as the pivot. Finally, the right side is partitioned with 8 as the pivot. The entire array is now sorted.<br>5是最初的基准，数组分区如图所示。接下来左边以2为基准，最后，右边以8为基准。此时整个数组排序结束。</p>
+<p><img src="Quicksort-In-Place/QuickSortInPlace.png" alt="Lomuto-partitioning"><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> ar[<span class="number">5000</span>]; <span class="keyword">int</span> n;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> &amp;a,<span class="keyword">int</span> &amp;b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> t=a;</span><br><span class="line">    a=b;</span><br><span class="line">    b=t;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">partition</span><span class="params">(<span class="keyword">int</span> *ar,<span class="keyword">int</span> p,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x=ar[r];</span><br><span class="line">    <span class="keyword">int</span> i=p<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=p;j&lt;r;j++)&#123;</span><br><span class="line">        <span class="keyword">if</span> (ar[j]&lt;x)&#123;</span><br><span class="line">            i++;</span><br><span class="line">            swap(ar[i],ar[j]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    swap(ar[r],ar[++i]);</span><br><span class="line">    <span class="keyword">extern</span> <span class="keyword">int</span> n;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;++i)&#123;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;ar[i]&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quicksort</span><span class="params">(<span class="keyword">int</span> *ar,<span class="keyword">int</span> p,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (p&lt;r)&#123;</span><br><span class="line">        <span class="keyword">int</span> q=partition(ar,p,r);</span><br><span class="line">        quicksort(ar,p,q<span class="number">-1</span>);</span><br><span class="line">        quicksort(ar,q+<span class="number">1</span>,r);        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;ar[i];</span><br><span class="line">    &#125;</span><br><span class="line">    quicksort(ar,<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/21/Quicksort-In-Place/" data-id="cjdyah4hc000i2ga3ai6mg8je" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sorting/">sorting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/06/22/Web-plugins/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          Web plugins
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/06/21/Quicksort-2-Sorting/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">Quicksort 2 - Sorting</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/codeignitor/">codeignitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker，moodle/">docker，moodle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/erp/">erp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-oj/">leetcode,oj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/noip/">noip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/software/">software</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sorting/">sorting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常用/">常用</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/algorithms/" style="font-size: 17.5px;">algorithms</a> <a href="/tags/codeignitor/" style="font-size: 12.5px;">codeignitor</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/docker，moodle/" style="font-size: 10px;">docker，moodle</a> <a href="/tags/erp/" style="font-size: 10px;">erp</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/leetcode-oj/" style="font-size: 10px;">leetcode,oj</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 12.5px;">markdown</a> <a href="/tags/noip/" style="font-size: 10px;">noip</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/sorting/" style="font-size: 17.5px;">sorting</a> <a href="/tags/sublime/" style="font-size: 12.5px;">sublime</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/tutorial/" style="font-size: 20px;">tutorial</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/常用/" style="font-size: 10px;">常用</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/22/leetcode-1-Two-Sum/">[leetcode]1.Two_Sum</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/11/erp-xte/">erp(xte)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/07/showoff-presenter/">showoff presenter</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/06/ruby/">ruby</a>
+          </li>
+        
+          <li>
+            <a href="/2016/07/02/信息学奥赛模拟题模板/">信息学奥赛模拟题模板</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

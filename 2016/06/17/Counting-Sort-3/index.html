@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Counting Sort 3 (计数排序 3) | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="In the previous challenge, it was easy to print all the integers in order, since you did not have to access the original list. Once you had obtained the frequencies of all the integers, you could simp">
+<meta name="keywords" content="algorithms,sorting,tutorial">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Counting Sort 3 (计数排序 3)">
+<meta property="og:url" content="http://yoursite.com/2016/06/17/Counting-Sort-3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="In the previous challenge, it was easy to print all the integers in order, since you did not have to access the original list. Once you had obtained the frequencies of all the integers, you could simp">
+<meta property="og:updated_time" content="2016-06-17T08:10:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Counting Sort 3 (计数排序 3)">
+<meta name="twitter:description" content="In the previous challenge, it was easy to print all the integers in order, since you did not have to access the original list. Once you had obtained the frequencies of all the integers, you could simp">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Counting-Sort-3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/17/Counting-Sort-3/" class="article-date">
+  <time datetime="2016-06-17T05:59:59.000Z" itemprop="datePublished">2016-06-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Counting Sort 3 (计数排序 3)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>In the previous challenge, it was easy to print all the integers in order, since you did not have to access the original list. Once you had obtained the frequencies of all the integers, you could simply print each integer in order the correct number of times. However, if there is other data associated with an element, you will have to access the original element itself.</p>
+<p>In the final counting sort challenge, you are required to print the data associated with each integer. This means, you will go through the original array to get the data, and then use some “helper arrays” to determine where to place everything in a sorted array.</p>
+<p>If you know the frequencies of each element, you know how many times to place it, but which index will you start placing it from? It will be helpful to create a helper array for the “starting values” of each element.<br>在前面的任务里，将列表中的整数按序输出是很简单的，因为你不需要访问原列表。一旦你获得了所有整数的出现频率，你就可以简单地按序打印每个整数的次数。但是，如果有其他数据跟每个元素有关联，那么你就必须访问原来的元素本身了。</p>
+<p>在最后这个任务里，你被要求打印与整数关联的数据。这意味着你需要回到原列表取获取数据，并且使用一些“辅助数组”来确定在哪里将所有数据按序存放。</p>
+<p>如果你知道每个元素的出现频率，你知道这样的元素需要存储多少次，但是，从哪个位置开始存储呢？所以在这里建立一个辅助数组储存每个元素的“起始位置”将会非常有帮助。</p>
+<h2 id="Challenge-（任务）"><a href="#Challenge-（任务）" class="headerlink" title="Challenge （任务）"></a>Challenge （任务）</h2><p>You will be given a list that contains both integers and strings. In this challenge you just care about the integers. For every value i from 0 to 99, can you output L, the number of elements that are less than or equal to i?<br>给你一个列表，包含整数和字符串。本任务你只需关注整数。对于每个整数i，能否输出小于等于i的数的个数L？</p>
+<h2 id="Input-Format-（输入格式）"><a href="#Input-Format-（输入格式）" class="headerlink" title="Input Format （输入格式）"></a>Input Format （输入格式）</h2><ul>
+<li>n, the size of the list ar. </li>
+<li>n lines follow, each containing an integer x and a string s.</li>
+<li>列表大小n</li>
+<li>接下来n行，每行一个整数x和一个字符串s<h2 id="Output-Format-（输出格式）"><a href="#Output-Format-（输出格式）" class="headerlink" title="Output Format （输出格式）"></a>Output Format （输出格式）</h2>Output L for all numbers from 0 to 99 (inclusive).<br>输出0～99这些数的L<h2 id="Constraints-（约束条件）"><a href="#Constraints-（约束条件）" class="headerlink" title="Constraints （约束条件）"></a>Constraints （约束条件）</h2>100&lt;=n&lt;=10^6<br>0&lt;=x&lt;100<br>length of string&lt;=10 </li>
+</ul>
+<h2 id="Sample-Input（样例输入）"><a href="#Sample-Input（样例输入）" class="headerlink" title="Sample Input（样例输入）"></a>Sample Input（样例输入）</h2><p>10<br>4 that<br>3 be<br>0 to<br>1 be<br>5 question<br>1 or<br>2 not<br>4 is<br>2 to<br>4 the</p>
+<h2 id="Sample-Output（样例输出）"><a href="#Sample-Output（样例输出）" class="headerlink" title="Sample Output（样例输出）"></a>Sample Output（样例输出）</h2><p>1 3 5 6 9 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 </p>
+<h2 id="Explanation-（解释）"><a href="#Explanation-（解释）" class="headerlink" title="Explanation （解释）"></a>Explanation （解释）</h2><p>0 appears 1 time, so the 0th number is 1.<br>0 and 1 combined appear 3 times, so the next number is 3.<br>This continues for the rest of the list, until no more new numbers appear.<br>0出现1次，所以小于等于1的有1个，0和1共出现3次，所以小于等于2的有3个…</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> a[<span class="number">100</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>,val;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">string</span> str;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;val&gt;&gt;str;</span><br><span class="line">        a[val]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> s=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> val=<span class="number">0</span>;val&lt;<span class="number">100</span>;val++)&#123;</span><br><span class="line">        s+=a[val];</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;s&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>同样基于后续任务及题目中提及的辅助数组概念，将程序调整如下，生成辅助数组L然后输出<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a[<span class="number">100</span>],L[<span class="number">100</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>,val;i&lt;n;i++)&#123;</span><br><span class="line">        <span class="built_in">string</span> str;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;val&gt;&gt;str;</span><br><span class="line">        a[val]++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> s=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> val=<span class="number">0</span>;val&lt;<span class="number">100</span>;val++)&#123;</span><br><span class="line">        s+=a[val];</span><br><span class="line">        L[val]=s;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;s&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/17/Counting-Sort-3/" data-id="cjdyah4gq00052ga35dbieoyy" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sorting/">sorting</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/06/17/The Full Counting Sort/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          The Full Counting Sort
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/06/17/Counting-Sort-1 (cn)/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">计数排序 1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/codeignitor/">codeignitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker，moodle/">docker，moodle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/erp/">erp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-oj/">leetcode,oj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/noip/">noip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/software/">software</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sorting/">sorting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常用/">常用</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/algorithms/" style="font-size: 17.5px;">algorithms</a> <a href="/tags/codeignitor/" style="font-size: 12.5px;">codeignitor</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/docker，moodle/" style="font-size: 10px;">docker，moodle</a> <a href="/tags/erp/" style="font-size: 10px;">erp</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/leetcode-oj/" style="font-size: 10px;">leetcode,oj</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 12.5px;">markdown</a> <a href="/tags/noip/" style="font-size: 10px;">noip</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/sorting/" style="font-size: 17.5px;">sorting</a> <a href="/tags/sublime/" style="font-size: 12.5px;">sublime</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/tutorial/" style="font-size: 20px;">tutorial</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/常用/" style="font-size: 10px;">常用</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/22/leetcode-1-Two-Sum/">[leetcode]1.Two_Sum</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/11/erp-xte/">erp(xte)</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/07/showoff-presenter/">showoff presenter</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/06/ruby/">ruby</a>
+          </li>
+        
+          <li>
+            <a href="/2016/07/02/信息学奥赛模拟题模板/">信息学奥赛模拟题模板</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
