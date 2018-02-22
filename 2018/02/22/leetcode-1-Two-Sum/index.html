@@ -7,17 +7,17 @@
   
   <title>[leetcode]1.Two_Sum | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="problem `Given an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not use t">
+  <meta name="description" content="Problemproblem Given an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not">
 <meta name="keywords" content="leetcode,oj">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[leetcode]1.Two_Sum">
 <meta property="og:url" content="http://yoursite.com/2018/02/22/leetcode-1-Two-Sum/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="problem `Given an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not use t">
-<meta property="og:updated_time" content="2018-02-22T08:20:47.947Z">
+<meta property="og:description" content="Problemproblem Given an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not">
+<meta property="og:updated_time" content="2018-02-22T09:26:42.102Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[leetcode]1.Two_Sum">
-<meta name="twitter:description" content="problem `Given an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not use t">
+<meta name="twitter:description" content="Problemproblem Given an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -86,25 +86,49 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://leetcode.com/problems/two-sum/description/" target="_blank" rel="noopener">problem</a></p>
-<p><code>`</code><br>Given an array of integers, return indices of the two numbers such that they add up to a specific target.</p>
-<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
-<p>Example:<br>Given nums = [2, 7, 11, 15], target = 9,</p>
-<p>Because nums[0] + nums[1] = 2 + 7 = 9,<br>return [0, 1].</p>
+        <h2 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h2><p><a href="https://leetcode.com/problems/two-sum/description/" target="_blank" rel="noopener">problem</a></p>
+<p>Given an array of integers, return indices of the two numbers such that they add up to a specific target.</p>
+<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Example:</span><br><span class="line">Given nums = [2, 7, 11, 15], target = 9,</span><br><span class="line"></span><br><span class="line">Because nums[0] + nums[1] = 2 + 7 = 9,</span><br><span class="line">return [0, 1].</span><br></pre></td></tr></table></figure></p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><h3 id="Approach-1"><a href="#Approach-1" class="headerlink" title="Approach #1"></a>Approach #1</h3><p>The brute force approach is simple. Loop through each element xx and find if there is another value that equals to target - xtarget−x.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[j] == target - nums[i]) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; i, j &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Complexity Analysis</p>
+<p>Time complexity : O(n^2). For each element, we try to find its complement by looping through the rest of array which takes O(n) time. Therefore, the time complexity is O(n^2)</p>
+<p>Space complexity : O(1).</p>
+<h3 id="Approach-2-Two-pass-Hash-Table-Accepted"><a href="#Approach-2-Two-pass-Hash-Table-Accepted" class="headerlink" title="Approach #2 (Two-pass Hash Table) [Accepted]"></a>Approach #2 (Two-pass Hash Table) [Accepted]</h3><p>To improve our run time complexity, we need a more efficient way to check if the complement exists in the array. If the complement exists, we need to look up its index. What is the best way to maintain a mapping of each element in the array to its index? A hash table.</p>
+<p>We reduce the look up time from O(n) to O(1) by trading space for speed. A hash table is built exactly for this purpose, it supports fast look up in near constant time. I say “near” because if a collision occurred, a look up could degenerate to O(n) time. But look up in hash table should be amortized O(1) time as long as the hash function was chosen carefully.</p>
+<p>A simple implementation uses two iterations. In the first iteration, we add each element’s value and its index to the table. Then, in the second iteration we check if each element’s complement (target - nums[i]target−nums[i]) exists in the table. Beware that the complement must not be nums[i]nums[i] itself!<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">    Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        map.put(nums[i], i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(complement) &amp;&amp; map.get(complement) != i) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; i, map.get(complement) &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Complexity Analysis:</p>
+<p>Time complexity : O(n). We traverse the list containing nn elements exactly twice. Since the hash table reduces the look up time to O(1), the time complexity is O(n).</p>
+<p>Space complexity : O(n). The extra space required depends on the number of items stored in the hash table, which stores exactly nn elements.</p>
+<h3 id="Approach-3-One-pass-Hash-Table-Accepted"><a href="#Approach-3-One-pass-Hash-Table-Accepted" class="headerlink" title="Approach #3 (One-pass Hash Table) [Accepted]"></a>Approach #3 (One-pass Hash Table) [Accepted]</h3><p>It turns out we can do it in one-pass. While we iterate and inserting elements into the table, we also look back to check if current element’s complement already exists in the table. If it exists, we have found a solution and return immediately.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">    Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(complement)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; map.get(complement), i &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        map.put(nums[i], i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hash_tbl=&#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">    c=target-nums[i]</span><br><span class="line">    <span class="keyword">if</span> c <span class="keyword">in</span> hash_tbl:</span><br><span class="line">        <span class="keyword">return</span> [hash_tbl[c],i]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        hash_tbl[nums[i]]=i</span><br></pre></td></tr></table></figure>
+<p>Complexity Analysis:</p>
+<p>Time complexity : O(n). We traverse the list containing nn elements only once. Each look up in the table costs only O(1) time.</p>
+<p>Space complexity : O(n). The extra space required depends on the number of items stored in the hash table, which stores at most nn elements.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/22/leetcode-1-Two-Sum/" data-id="cjdy93i7s0000xca3yoegasec" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/02/22/leetcode-1-Two-Sum/" data-id="cjdyaqni400168sa3ou0oxu0l" class="article-share-link">Teilen</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-oj/">leetcode,oj</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oj/">oj</a></li></ul>
 
     </footer>
   </div>
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/02/22/leetcode-2-Add-Two-numbers/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          [leetcode]2.Add_Two_numbers
+        
+      </div>
+    </a>
   
   
     <a href="/2016/09/11/erp-xte/" id="article-nav-older" class="article-nav-link-wrap">
@@ -128,7 +152,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/codeignitor/">codeignitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker，moodle/">docker，moodle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/erp/">erp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-oj/">leetcode,oj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/noip/">noip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/software/">software</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sorting/">sorting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常用/">常用</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/codeignitor/">codeignitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/erp/">erp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moodle/">moodle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/noip/">noip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oj/">oj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/software/">software</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sorting/">sorting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常用/">常用</a></li></ul>
     </div>
   </div>
 
@@ -138,7 +162,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/algorithms/" style="font-size: 17.5px;">algorithms</a> <a href="/tags/codeignitor/" style="font-size: 12.5px;">codeignitor</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/docker，moodle/" style="font-size: 10px;">docker，moodle</a> <a href="/tags/erp/" style="font-size: 10px;">erp</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/leetcode-oj/" style="font-size: 10px;">leetcode,oj</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 12.5px;">markdown</a> <a href="/tags/noip/" style="font-size: 10px;">noip</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/sorting/" style="font-size: 17.5px;">sorting</a> <a href="/tags/sublime/" style="font-size: 12.5px;">sublime</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/tutorial/" style="font-size: 20px;">tutorial</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/常用/" style="font-size: 10px;">常用</a>
+      <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/algorithms/" style="font-size: 17.5px;">algorithms</a> <a href="/tags/codeignitor/" style="font-size: 12.5px;">codeignitor</a> <a href="/tags/docker/" style="font-size: 12.5px;">docker</a> <a href="/tags/erp/" style="font-size: 10px;">erp</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 12.5px;">markdown</a> <a href="/tags/moodle/" style="font-size: 10px;">moodle</a> <a href="/tags/noip/" style="font-size: 10px;">noip</a> <a href="/tags/oj/" style="font-size: 10px;">oj</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/sorting/" style="font-size: 17.5px;">sorting</a> <a href="/tags/sublime/" style="font-size: 12.5px;">sublime</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/tutorial/" style="font-size: 20px;">tutorial</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/常用/" style="font-size: 10px;">常用</a>
     </div>
   </div>
 
@@ -160,6 +184,10 @@
       <ul>
         
           <li>
+            <a href="/2018/02/22/leetcode-2-Add-Two-numbers/">[leetcode]2.Add_Two_numbers</a>
+          </li>
+        
+          <li>
             <a href="/2018/02/22/leetcode-1-Two-Sum/">[leetcode]1.Two_Sum</a>
           </li>
         
@@ -173,10 +201,6 @@
         
           <li>
             <a href="/2016/09/06/ruby/">ruby</a>
-          </li>
-        
-          <li>
-            <a href="/2016/07/02/信息学奥赛模拟题模板/">信息学奥赛模拟题模板</a>
           </li>
         
       </ul>

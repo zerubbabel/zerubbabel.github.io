@@ -61,6 +61,60 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-leetcode-2-Add-Two-numbers" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/02/22/leetcode-2-Add-Two-numbers/" class="article-date">
+  <time datetime="2018-02-22T09:28:41.000Z" itemprop="datePublished">2018-02-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/22/leetcode-2-Add-Two-numbers/">[leetcode]2.Add_Two_numbers</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h2><p>You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.</p>
+<p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p>
+<p>Example<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: (2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)</span><br><span class="line">Output: 7 -&gt; 0 -&gt; 8</span><br><span class="line">Explanation: 342 + 465 = 807.</span><br></pre></td></tr></table></figure></p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Intuition</p>
+<p>Keep track of the carry using a variable and simulate digits-by-digits sum starting from the head of list, which contains the least-significant digit.<br><img src="leetcode-2-Add-Two-numbers/2_add_two_numbers.svg" alt="LinkList"><br>Figure 1. Visualization of the addition of two numbers: 342 + 465 = 807342+465=807.<br>Each node contains a single digit and the digits are stored in reverse order.</p>
+<p>Algorithm</p>
+<p>Just like how you would sum two numbers on a piece of paper, we begin by summing the least-significant digits, which is the head of l1l1 and l2l2. Since each digit is in the range of 0 \ldots 90…9, summing two digits may “overflow”. For example 5 + 7 = 125+7=12. In this case, we set the current digit to 22 and bring over the carry = 1carry=1 to the next iteration. carrycarry must be either 00 or 11 because the largest possible sum of two digits (including the carry) is 9 + 9 + 1 = 199+9+1=19.</p>
+<p>The pseudocode is as following:</p>
+<p>Initialize current node to dummy head of the returning list.<br>Initialize carry to 00.<br>Initialize pp and qq to head of l1l1 and l2l2 respectively.<br>Loop through lists l1l1 and l2l2 until you reach both ends.<br>Set xx to node pp’s value. If pp has reached the end of l1l1, set to 00.<br>Set yy to node qq’s value. If qq has reached the end of l2l2, set to 00.<br>Set sum = x + y + carrysum=x+y+carry.<br>Update carry = sum / 10carry=sum/10.<br>Create a new node with the digit value of (sum \bmod 10)(summod10) and set it to current node’s next, then advance current node to next.<br>Advance both pp and qq.<br>Check if carry = 1carry=1, if so append a new node with digit 11 to the returning list.<br>Return dummy head’s next node.<br>Note that we use a dummy head to simplify the code. Without a dummy head, you would have to write extra conditional statements to initialize the head’s value.</p>
+<p>Take extra caution of the following cases:</p>
+<p>Test case    Explanation<br>l1=[0,1]l1=[0,1]<br>l2=[0,1,2]l2=[0,1,2]    When one list is longer than the other.<br>l1=[]l1=[]<br>l2=[0,1]l2=[0,1]    When one list is null, which means an empty list.<br>l1=[9,9]l1=[9,9]<br>l2=[1]l2=[1]    The sum could have an extra carry of one at the end, which is easy to forget.<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> ListNode <span class="title">addTwoNumbers</span><span class="params">(ListNode l1, ListNode l2)</span> </span>&#123;</span><br><span class="line">    ListNode dummyHead = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">    ListNode p = l1, q = l2, curr = dummyHead;</span><br><span class="line">    <span class="keyword">int</span> carry = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (p != <span class="keyword">null</span> || q != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> x = (p != <span class="keyword">null</span>) ? p.val : <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> y = (q != <span class="keyword">null</span>) ? q.val : <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> sum = carry + x + y;</span><br><span class="line">        carry = sum / <span class="number">10</span>;</span><br><span class="line">        curr.next = <span class="keyword">new</span> ListNode(sum % <span class="number">10</span>);</span><br><span class="line">        curr = curr.next;</span><br><span class="line">        <span class="keyword">if</span> (p != <span class="keyword">null</span>) p = p.next;</span><br><span class="line">        <span class="keyword">if</span> (q != <span class="keyword">null</span>) q = q.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (carry &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        curr.next = <span class="keyword">new</span> ListNode(carry);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dummyHead.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line"><span class="comment"># @return a ListNode</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addTwoNumbers</span><span class="params">(self, l1, l2)</span>:</span></span><br><span class="line">    carry = <span class="number">0</span></span><br><span class="line">    root = n = ListNode(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">while</span> l1 <span class="keyword">or</span> l2 <span class="keyword">or</span> carry:</span><br><span class="line">        v1 = v2 = <span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> l1:</span><br><span class="line">            v1 = l1.val</span><br><span class="line">            l1 = l1.next</span><br><span class="line">        <span class="keyword">if</span> l2:</span><br><span class="line">            v2 = l2.val</span><br><span class="line">            l2 = l2.next</span><br><span class="line">        carry, val = divmod(v1+v2+carry, <span class="number">10</span>)</span><br><span class="line">        n.next = ListNode(val)</span><br><span class="line">        n = n.next</span><br><span class="line">    <span class="keyword">return</span> root.next</span><br></pre></td></tr></table></figure>
+<p>Complexity Analysis</p>
+<p>Time complexity : O(\max(m, n))O(max(m,n)). Assume that mm and nn represents the length of l1l1 and l2l2 respectively, the algorithm above iterates at most \max(m, n)max(m,n) times.</p>
+<p>Space complexity : O(\max(m, n))O(max(m,n)). The length of the new list is at most \max(m,n) + 1max(m,n)+1.</p>
+<p>Follow up</p>
+<p>What if the the digits in the linked list are stored in non-reversed order? For example:</p>
+<p>(3 \to 4 \to 2) + (4 \to 6 \to 5) = 8 \to 0 \to 7 (3→4→2)+(4→6→5)=8→0→7</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/02/22/leetcode-2-Add-Two-numbers/" data-id="cjdyb2anv003c8sa3x9avhfev" class="article-share-link">Teilen</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-leetcode-1-Two-Sum" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/02/22/leetcode-1-Two-Sum/" class="article-date">
@@ -83,19 +137,34 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://leetcode.com/problems/two-sum/description/" target="_blank" rel="noopener">problem</a></p>
-<p><code>`</code><br>Given an array of integers, return indices of the two numbers such that they add up to a specific target.</p>
-<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
-<p>Example:<br>Given nums = [2, 7, 11, 15], target = 9,</p>
-<p>Because nums[0] + nums[1] = 2 + 7 = 9,<br>return [0, 1].</p>
+        <h2 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h2><p><a href="https://leetcode.com/problems/two-sum/description/" target="_blank" rel="noopener">problem</a></p>
+<p>Given an array of integers, return indices of the two numbers such that they add up to a specific target.</p>
+<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Example:</span><br><span class="line">Given nums = [2, 7, 11, 15], target = 9,</span><br><span class="line"></span><br><span class="line">Because nums[0] + nums[1] = 2 + 7 = 9,</span><br><span class="line">return [0, 1].</span><br></pre></td></tr></table></figure></p>
+<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><h3 id="Approach-1"><a href="#Approach-1" class="headerlink" title="Approach #1"></a>Approach #1</h3><p>The brute force approach is simple. Loop through each element xx and find if there is another value that equals to target - xtarget−x.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; nums.length; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[j] == target - nums[i]) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; i, j &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Complexity Analysis</p>
+<p>Time complexity : O(n^2). For each element, we try to find its complement by looping through the rest of array which takes O(n) time. Therefore, the time complexity is O(n^2)</p>
+<p>Space complexity : O(1).</p>
+<h3 id="Approach-2-Two-pass-Hash-Table-Accepted"><a href="#Approach-2-Two-pass-Hash-Table-Accepted" class="headerlink" title="Approach #2 (Two-pass Hash Table) [Accepted]"></a>Approach #2 (Two-pass Hash Table) [Accepted]</h3><p>To improve our run time complexity, we need a more efficient way to check if the complement exists in the array. If the complement exists, we need to look up its index. What is the best way to maintain a mapping of each element in the array to its index? A hash table.</p>
+<p>We reduce the look up time from O(n) to O(1) by trading space for speed. A hash table is built exactly for this purpose, it supports fast look up in near constant time. I say “near” because if a collision occurred, a look up could degenerate to O(n) time. But look up in hash table should be amortized O(1) time as long as the hash function was chosen carefully.</p>
+<p>A simple implementation uses two iterations. In the first iteration, we add each element’s value and its index to the table. Then, in the second iteration we check if each element’s complement (target - nums[i]target−nums[i]) exists in the table. Beware that the complement must not be nums[i]nums[i] itself!<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">    Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        map.put(nums[i], i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(complement) &amp;&amp; map.get(complement) != i) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; i, map.get(complement) &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Complexity Analysis:</p>
+<p>Time complexity : O(n). We traverse the list containing nn elements exactly twice. Since the hash table reduces the look up time to O(1), the time complexity is O(n).</p>
+<p>Space complexity : O(n). The extra space required depends on the number of items stored in the hash table, which stores exactly nn elements.</p>
+<h3 id="Approach-3-One-pass-Hash-Table-Accepted"><a href="#Approach-3-One-pass-Hash-Table-Accepted" class="headerlink" title="Approach #3 (One-pass Hash Table) [Accepted]"></a>Approach #3 (One-pass Hash Table) [Accepted]</h3><p>It turns out we can do it in one-pass. While we iterate and inserting elements into the table, we also look back to check if current element’s complement already exists in the table. If it exists, we have found a solution and return immediately.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">int</span>[] twoSum(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">    Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> complement = target - nums[i];</span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(complement)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[] &#123; map.get(complement), i &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        map.put(nums[i], i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"No two sum solution"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hash_tbl=&#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(nums)):</span><br><span class="line">    c=target-nums[i]</span><br><span class="line">    <span class="keyword">if</span> c <span class="keyword">in</span> hash_tbl:</span><br><span class="line">        <span class="keyword">return</span> [hash_tbl[c],i]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        hash_tbl[nums[i]]=i</span><br></pre></td></tr></table></figure>
+<p>Complexity Analysis:</p>
+<p>Time complexity : O(n). We traverse the list containing nn elements only once. Each look up in the table costs only O(1) time.</p>
+<p>Space complexity : O(n). The extra space required depends on the number of items stored in the hash table, which stores at most nn elements.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/22/leetcode-1-Two-Sum/" data-id="cjdy93i7s0000xca3yoegasec" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/02/22/leetcode-1-Two-Sum/" data-id="cjdyaqni400168sa3ou0oxu0l" class="article-share-link">Teilen</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode-oj/">leetcode,oj</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/leetcode/">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oj/">oj</a></li></ul>
 
     </footer>
   </div>
@@ -131,7 +200,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/09/11/erp-xte/" data-id="cjdyah4hn000z2ga3q8w0p77o" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/09/11/erp-xte/" data-id="cjdyaqnhp000z8sa3llhbyjkf" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/erp/">erp</a></li></ul>
@@ -171,7 +240,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/09/07/showoff-presenter/" data-id="cjdyah4ip002k2ga3lbo8rje1" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/09/07/showoff-presenter/" data-id="cjdyaqni4001g8sa3wubeplih" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/">tools</a></li></ul>
@@ -225,7 +294,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/09/06/ruby/" data-id="cjdyah4ik002h2ga345kmcnlo" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/09/06/ruby/" data-id="cjdyaqni4001e8sa391f5urk5" class="article-share-link">Teilen</a>
       
       
     </footer>
@@ -265,7 +334,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/07/02/信息学奥赛模拟题模板/" data-id="cjdyah4ir002l2ga3dj7n2qaa" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/07/02/信息学奥赛模拟题模板/" data-id="cjdyaqni4001o8sa3v4r9gjxj" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/noip/">noip</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sublime/">sublime</a></li></ul>
@@ -311,10 +380,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/27/docker-moodle/" data-id="cjdyah4hn000x2ga3w24vaw9l" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/06/27/docker-moodle/" data-id="cjdyaqnhp000u8sa3hvu9q4wz" class="article-share-link">Teilen</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker，moodle/">docker，moodle</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/moodle/">moodle</a></li></ul>
 
     </footer>
   </div>
@@ -383,7 +452,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/24/docker-入门/" data-id="cjdyah4hn000u2ga3j3a5hihg" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/06/24/docker-入门/" data-id="cjdyaqnhp000w8sa355vwce3g" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/">docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
@@ -424,7 +493,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/23/Jquery-常用技巧/" data-id="cjdyah4gu00082ga3t8hltej7" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/06/23/Jquery-常用技巧/" data-id="cjdyaqnh900098sa35ig0qbzf" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/常用/">常用</a></li></ul>
@@ -483,49 +552,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/23/linux下web开发/" data-id="cjdyah4hn00142ga37dogrxm3" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2016/06/23/linux下web开发/" data-id="cjdyaqni400198sa302y7f609" class="article-share-link">Teilen</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Web-plugins" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/06/22/Web-plugins/" class="article-date">
-  <time datetime="2016-06-22T07:21:48.000Z" itemprop="datePublished">2016-06-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/22/Web-plugins/">Web plugins</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="弹出窗口"><a href="#弹出窗口" class="headerlink" title="弹出窗口"></a>弹出窗口</h2><p><a href="https://github.com/fancyapps/fancyBox" target="_blank" rel="noopener">fancybox</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/06/22/Web-plugins/" data-id="cjdyah4hg000n2ga3znbadxmx" class="article-share-link">Teilen</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
 
     </footer>
   </div>
@@ -552,7 +582,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/codeignitor/">codeignitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker，moodle/">docker，moodle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/erp/">erp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode-oj/">leetcode,oj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/noip/">noip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/software/">software</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sorting/">sorting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常用/">常用</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Jquery/">Jquery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/codeignitor/">codeignitor</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/erp/">erp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/moodle/">moodle</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/noip/">noip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oj/">oj</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/software/">software</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sorting/">sorting</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sublime/">sublime</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tools/">tools</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/web/">web</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/常用/">常用</a></li></ul>
     </div>
   </div>
 
@@ -562,7 +592,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/algorithms/" style="font-size: 17.5px;">algorithms</a> <a href="/tags/codeignitor/" style="font-size: 12.5px;">codeignitor</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/docker，moodle/" style="font-size: 10px;">docker，moodle</a> <a href="/tags/erp/" style="font-size: 10px;">erp</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/leetcode-oj/" style="font-size: 10px;">leetcode,oj</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 12.5px;">markdown</a> <a href="/tags/noip/" style="font-size: 10px;">noip</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/sorting/" style="font-size: 17.5px;">sorting</a> <a href="/tags/sublime/" style="font-size: 12.5px;">sublime</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/tutorial/" style="font-size: 20px;">tutorial</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/常用/" style="font-size: 10px;">常用</a>
+      <a href="/tags/Jquery/" style="font-size: 10px;">Jquery</a> <a href="/tags/algorithms/" style="font-size: 17.5px;">algorithms</a> <a href="/tags/codeignitor/" style="font-size: 12.5px;">codeignitor</a> <a href="/tags/docker/" style="font-size: 12.5px;">docker</a> <a href="/tags/erp/" style="font-size: 10px;">erp</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/leetcode/" style="font-size: 10px;">leetcode</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 12.5px;">markdown</a> <a href="/tags/moodle/" style="font-size: 10px;">moodle</a> <a href="/tags/noip/" style="font-size: 10px;">noip</a> <a href="/tags/oj/" style="font-size: 10px;">oj</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/software/" style="font-size: 10px;">software</a> <a href="/tags/sorting/" style="font-size: 17.5px;">sorting</a> <a href="/tags/sublime/" style="font-size: 12.5px;">sublime</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/tutorial/" style="font-size: 20px;">tutorial</a> <a href="/tags/web/" style="font-size: 15px;">web</a> <a href="/tags/常用/" style="font-size: 10px;">常用</a>
     </div>
   </div>
 
@@ -584,6 +614,10 @@
       <ul>
         
           <li>
+            <a href="/2018/02/22/leetcode-2-Add-Two-numbers/">[leetcode]2.Add_Two_numbers</a>
+          </li>
+        
+          <li>
             <a href="/2018/02/22/leetcode-1-Two-Sum/">[leetcode]1.Two_Sum</a>
           </li>
         
@@ -597,10 +631,6 @@
         
           <li>
             <a href="/2016/09/06/ruby/">ruby</a>
-          </li>
-        
-          <li>
-            <a href="/2016/07/02/信息学奥赛模拟题模板/">信息学奥赛模拟题模板</a>
           </li>
         
       </ul>
