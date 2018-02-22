@@ -13,12 +13,13 @@
 <meta property="og:url" content="http://yoursite.com/2018/02/22/leetcode-2-Add-Two-numbers/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="ProblemYou are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and r">
-<meta property="og:image" content="http://yoursite.com/2018/02/22/leetcode-2-Add-Two-numbers/leetcode-2-Add-Two-numbers/2_add_two_numbers.svg">
-<meta property="og:updated_time" content="2018-02-22T09:35:25.152Z">
+<meta property="og:image" content="http://yoursite.com/2018/02/22/leetcode-2-Add-Two-numbers/leetcode2/2_add_two_numbers.svg">
+<meta property="og:image" content="http://yoursite.com/2018/02/22/leetcode-2-Add-Two-numbers/leetcode2/1.jpg">
+<meta property="og:updated_time" content="2018-02-22T09:40:19.750Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[leetcode]2.Add_Two_numbers">
 <meta name="twitter:description" content="ProblemYou are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and r">
-<meta name="twitter:image" content="http://yoursite.com/2018/02/22/leetcode-2-Add-Two-numbers/leetcode-2-Add-Two-numbers/2_add_two_numbers.svg">
+<meta name="twitter:image" content="http://yoursite.com/2018/02/22/leetcode-2-Add-Two-numbers/leetcode2/2_add_two_numbers.svg">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -56,7 +57,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -91,7 +92,7 @@
 <p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p>
 <p>Example<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Input: (2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)</span><br><span class="line">Output: 7 -&gt; 0 -&gt; 8</span><br><span class="line">Explanation: 342 + 465 = 807.</span><br></pre></td></tr></table></figure></p>
 <h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h2><p>Intuition</p>
-<p>Keep track of the carry using a variable and simulate digits-by-digits sum starting from the head of list, which contains the least-significant digit.<br><img src="leetcode-2-Add-Two-numbers/2_add_two_numbers.svg" alt="LinkList"><br>Figure 1. Visualization of the addition of two numbers: 342 + 465 = 807342+465=807.<br>Each node contains a single digit and the digits are stored in reverse order.</p>
+<p>Keep track of the carry using a variable and simulate digits-by-digits sum starting from the head of list, which contains the least-significant digit.<br><img src="leetcode2/2_add_two_numbers.svg" alt="LinkList"><br><img src="leetcode2/1.jpg" alt="LinkList"><br>Figure 1. Visualization of the addition of two numbers: 342 + 465 = 807342+465=807.<br>Each node contains a single digit and the digits are stored in reverse order.</p>
 <p>Algorithm</p>
 <p>Just like how you would sum two numbers on a piece of paper, we begin by summing the least-significant digits, which is the head of l1l1 and l2l2. Since each digit is in the range of 0 \ldots 90…9, summing two digits may “overflow”. For example 5 + 7 = 125+7=12. In this case, we set the current digit to 22 and bring over the carry = 1carry=1 to the next iteration. carrycarry must be either 00 or 11 because the largest possible sum of two digits (including the carry) is 9 + 9 + 1 = 199+9+1=19.</p>
 <p>The pseudocode is as following:</p>
@@ -109,7 +110,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/22/leetcode-2-Add-Two-numbers/" data-id="cjdyb2anv003c8sa3x9avhfev" class="article-share-link">Teilen</a>
+      <a data-url="http://yoursite.com/2018/02/22/leetcode-2-Add-Two-numbers/" data-id="cjdyberjz0019lwa30vdzreaj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -120,7 +121,7 @@
   
   
     <a href="/2018/02/22/leetcode-1-Two-Sum/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Älter</strong>
+      <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">[leetcode]1.Two_Sum</div>
     </a>
   
@@ -157,7 +158,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archiv</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li></ul>
     </div>
@@ -167,7 +168,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">letzter Beitrag</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
